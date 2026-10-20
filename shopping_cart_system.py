@@ -55,6 +55,7 @@ def remove_product(shopping_cart):
 
         #checks whether or not the number the user picked is within the range of shopping_cart list
         while valid == False:
+            #checks whether or not the item number picked by the user is within the list of items of the shopping_cart list
             if item < 1 or item > len(shopping_cart):
                 print("That item doesn't exist in your cart!")
 
@@ -92,6 +93,7 @@ def display_cart(shopping_cart):
 #Option 5
 def calculate_total(cart):
     sub = 0
+    #finds the subtotal by adding up all of the prices of the products
     for itm in range(len(cart)):
         sub += prices[products.index(cart[itm])]
     return sub
@@ -112,30 +114,37 @@ def get_discount(sub):
 
 #Option 6
 def receipt(subtotal, cart):
+    #checks whether or not the cart is empty or not, if it's not empty, then the program will go into this body
     if len(cart) != 0:
         print("========== RECEIPT ==========")
 
         #gets the current local date
         from datetime import datetime
         now = datetime.now()
+        #Formats the date so that it's the same format as the example
         formatted_now = now.strftime("%m/%d/%Y").replace("/0", "/")
         print("Date:", formatted_now) 
 
+        #lists all of the shopping carts' producst and their items
         for itm in range(len(cart)):
             print(f"{itm+1}.", cart[itm], "     ", f"${prices[products.index(cart[itm])]:.2f}")
 
+        #prints the subtotal
         print("Subtotal:", f"${subtotal:.2f}")
 
         #calls the discount function
         discount = get_discount(subtotal)
 
+        #this calculates the amount of money saved
         saved = discount * subtotal
+        #this calculates the final amount after the discount was applied
         final = subtotal - saved
         print("Discount: ", f"{discount:.0%}")
         print("Amount Saved: ", f"${saved:.2f}")
         print("Final Total:", f"${final:.2f}")
         print("Thank you for your time shopping here!")
         return True
+    #operates if the cart is empty
     else:
         print("You can't check out! You have nothing in your shopping cart")
         return False
@@ -179,12 +188,15 @@ while checkout == False:
     #Checks if the user chose option 5
     elif choice == 5:
         print("========== CURRENT TOTAL ==========")
+        #this will get the subtotal from the function "calculate_total"
         subtotal = calculate_total(shopping_cart)
         print("Subtotal:", f"${subtotal:.2f}")
 
     #checks if the user chose option 6
     elif choice == 6:
+        #this will get the subtotal from the function "calculate_total"
         subtotal = calculate_total(shopping_cart)
+        #this will get the checkout from the "receipt" function
         checkout = receipt(subtotal, shopping_cart)
         
 
